@@ -18,6 +18,10 @@ class FiniteFieldElement
 		return FiniteFieldElement.new((@value+inverse) % @char, @field)
 	end
 
+	def -@
+		FiniteFieldElement.new((@char - @value) % @char)
+	end
+
 	def *(other)
 		other = other.in(@field)
 		return FiniteFieldElement.new((@value*other.value) % @char, @field)

@@ -30,16 +30,22 @@ class CurvePoint
 		end
 		x3 = m*m - @curve.a2 - @x - other.x
 		y3 = m*x3 + @y - m*@x
-		return CurvePoint.new(x3, 0.in(@field) - y3, @curve)
+		intersection = CurvePoint.new(x3, y3, @curve)
+		return -intersection
 	end
 
 	def -(other)
-		other + CurvePoint.new(@x, 0.in(@field) - @y, @curve)
+		self + (-other)
 	end
 
 	#could be made faster by using successive squaring
 	def *(scalar)
 		return 1.upto(scalar-1).reduce(self) {|sum, i| sum + self }
+	end
+
+	#sign change
+	def -@
+		return CurvePoint.new(@x, -@curve.a1*@x - @curve.a3 - @y)
 	end
 
 	def to_s
@@ -52,7 +58,7 @@ class CurvePoint
 	end
 
 	def eql?(other)
-		return @x==other.x && @y==other.y #&& @curve==other.curve
+		return @x==other.x && @y==other.y && @curve==other.curve
 	end
 
 	def hash
