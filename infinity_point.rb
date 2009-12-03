@@ -4,7 +4,11 @@ class InfinityPoint
 	end
 
 	def -(other)
-		return CurvePoint.new(other.x, -other.y, other.curve)
+		return -other
+	end
+
+	def -@
+		return self
 	end
 
 	def *(scalar)
